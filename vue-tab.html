@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./swiper-3.4.2.min.css">
+    <script src="./swiper-3.4.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        .selected {
+            background: red;
+        }
+        img {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="b">
+        <div class="swiper-container" id="e">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="d in resData.data.image_list">
+                    <img v-bind:src="d" alt="">
+                </div>
+            </div>
+            
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        <ul>
+            <li v-for="item in resData.data.room_list" v-bind:class="item.d ? 'selected' : ''" v-on:click="clickRoom(item)">{{item.room_str}}</li>
+        </ul>
+        <div>
+            <div v-for="item in list">{{item.title}}</div>
+        </div>
+    </div>
+    <script>
+        var a = new Vue({
+            el: "#b",
+            data: {
+                resData: {
+                    data: {
+                        room_list: []
+                    }
+                },
+                list: []
+            },
+            mounted: function(){
+                var mySwiper = new Swiper ('.swiper-container', {
+                    loop: true,
+                    observer:true,
+                    
+                    // 如果需要前进后退按钮
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev',
+                    
+                })
+                this.getData();
+            },
+            methods: {
+                getData: function(){
+                    var res = {
+                            data: {
+                                room_list: [
+                                    {
+                                        room_str: "三室",
+                                        list: [
+                                            {
+                                                title: "三室两厅一卫"
+                                            },
+                                            {
+                                                title: "三室两厅一卫"
+                                            },
+                                            {
+                                                title: "三室两厅一卫"
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        room_str: "四室",
+                                        list: [
+                                            {
+                                                title: "四室两厅2卫"
+                                            },
+                                            {
+                                                title: "四室两厅2卫"
+                                            },
+                                            {
+                                                title: "四室两厅2卫"
+                                            },
+                                            {
+                                                title: "四室两厅2卫"
+                                            },
+                                        ]
+                                    }
+                                ],
+                                image_list: [
+                                    "http://img.zcool.cn/community/038c0ee5744f9a500000025ae5acd2a.jpg",
+                                    "http://img.zcool.cn/community/038c0ee5744f9a500000025ae5acd2a.jpg",
+                                    "http://img.zcool.cn/community/038c0ee5744f9a500000025ae5acd2a.jpg",
+                                    "http://img.zcool.cn/community/038c0ee5744f9a500000025ae5acd2a.jpg",
+                                ]
+                            }
+                        }
+
+                        res.data.room_list.forEach(function(item, index){
+                            if(index == 0){
+                                item.d = true
+                            }else {
+                                item.d = false
+                            }
+                        })
+                        this.resData = res;
+                        this.list = res.data.room_list[0].list;
+                },
+                clickRoom: function(p){
+                    this.resData.data.room_list.forEach(function(item, index){
+                        item.d = false
+                    })
+                    p.d = true
+                    this.list = p.list
+                }
+            }
+        })
+    </script>
+</body>
+</html>
