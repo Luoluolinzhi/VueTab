@@ -9,50 +9,155 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <title>Document</title>
     <style>
+    .swiper-container{
+        width: 800px;
+    }
         .swiper-slide {
             width: 100%;
-            height: 500px;
-            background: lightgreen;
+            height: 200px;
             line-height: 500px;
             text-align: center;
-        }
-        .swiper-container{
-            width: 800px;
         }
     </style>
 </head>
 <body>
-    <div class="swiper-container">
+    <div class="swiper-container" id="e">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                1
-            </div>
-            <div class="swiper-slide">
-                2
-            </div>
-            <div class="swiper-slide">
-                3
+            <div class="swiper-slide" v-for="d in b">
+                {{d.name}}
+                <!-- <img src="{{item.data.image_list.url}"> -->
+                <button v-on:click="tipsName(d.name)">弹出name属性</button>
             </div>
         </div>
         
         <!-- 如果需要导航按钮 -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
-        <!-- 如果需要分页圆点 -->
         <div class="swiper-pagination"></div>
     </div>
-    <script>
-        var mySwiper = new Swiper ('.swiper-container', {
-            loop: true,
-            //分页圆点
-            pagination:'.swiper-pagination',
-            // 如果需要前进后退按钮
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
+    <div id="demo">
+        <ul>
+            <li v-for="item in a.data">{{item.data.room_list.room_str}}</li>
+        </ul>
+        <div>
             
-        });  
+        </div>
+    </div>
+    <script>
+        //vue 原理 双向数据绑定
+        var vm = new Vue({
+            el: "#e",
+            data: {
+                b: []
+            },
+            //监听页面加载
+            mounted: function(){
+                this.getData();
+                var mySwiper = new Swiper ('.swiper-container', {
+                    loop: true,
+                    observer:true,
+                    //分页圆点
+                    pagination:'.swiper-pagination',
+                    
+                    // 如果需要前进后退按钮
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev',
+                    
+                })
+            },
+            methods: {
+                getData: function(){
+                    var y = [
+                        {"name":1},
+                        {"name":2}
+                    ]
+                  
+                    this.b = y;
+                },
+                tipsName: function(u){
+                    alert(u);
+                }
+            }
+        })
+        var demo = new Vue({
+            el:"#demo",
+            data:{
+                a:{}
+            },
+            mounted: function(){
+                this.dataStr();
+            },
+            methods: {
+                dataStr : function(){
+                    var res = {
+                        data: {
+                            room_list: [
+                                {
+                                    room_str: "三居室",
+                                    lists: [
+                                        {
+                                            title: "三室两厅两卫",
+                                            area: "150平"
+                                        },
+                                        {
+                                            title: "三室两厅两卫",
+                                            area: "150平"
+                                        },
+                                        {
+                                            title: "三室两厅两卫",
+                                            area: "150平"
+                                        },
+                                    ]
+                                },
+                                {
+                                    room_str: "四居室",
+                                    lists: [
+                                        {
+                                            title: "四室两厅两卫",
+                                            area: "150平"
+                                        },
+                                        {
+                                            title: "四室两厅两卫",
+                                            area: "150平"
+                                        },
+                                        {
+                                            title: "四室两厅两卫",
+                                            area: "150平"
+                                        },
+                                    ]
+                                }
+                            ],
+                            image_list: [
+                                "https://ke-image.ljcdn.com/hdic-resblock/3824d037-8907-47ed-9194-a8a05d05e95f.jpg.1000x.jpg",
+                                "https://ke-image.ljcdn.com/hdic-resblock/3824d037-8907-47ed-9194-a8a05d05e95f.jpg.1000x.jpg",
+                                "https://ke-image.ljcdn.com/hdic-resblock/3824d037-8907-47ed-9194-a8a05d05e95f.jpg.1000x.jpg",
+                                "https://ke-image.ljcdn.com/hdic-resblock/3824d037-8907-47ed-9194-a8a05d05e95f.jpg.1000x.jpg",
+                            ]
+                        }
+                    }
+                    this.a = res;
+                }
+            }
+        })
+
        
-    
+
+
+        //原理 双向数据绑定 
+        // page({
+        //   data: {
+            //   a: [
+            //       {"name":1},
+            //       {"name":2}
+            //   ]
+        //   },
+        //   //小程序自带的方法
+        //   onload: function(){},
+        //   //用户自定义方法
+        //   getData: function(){
+
+        //   },  
+        // })
     </script>
 </body>
 </html>
